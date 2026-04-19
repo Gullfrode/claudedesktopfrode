@@ -1,0 +1,61 @@
+{
+  "dxt_version": "0.1",
+  "name": "accounting-assistant",
+  "display_name": "Regnskap – Sigma2",
+  "version": "1.0.0",
+  "description": "Kontoplan, kundereskontro, leverandørreskontro, hovedbok og budsjett fra Sigma2/UBW Agresso via OneDrive-synk",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "accounting_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with", "mcp",
+        "${__dirname}/accounting_mcp_server.py"
+      ],
+      "env": {
+        "ACCOUNTING_KONTOPLAN_DIR": "${user_config.kontoplan_dir}",
+        "ACCOUNTING_HOVEDBOK_DIR": "${user_config.hovedbok_dir}"
+      }
+    }
+  },
+  "tools": [
+    { "name": "check_data_dirs", "description": "Sjekk tilgjengelige datafiler og synkstatus" },
+    { "name": "search_kontoplan", "description": "Søk i kontoplan" },
+    { "name": "search_prosjektregister", "description": "Søk i prosjektregisteret" },
+    { "name": "search_ressurser", "description": "Søk i ansatt-/ressursregisteret" },
+    { "name": "list_dimension_files", "description": "List alle dimensjonsfiler" },
+    { "name": "read_dimension_file", "description": "Les en dimensjonsfil" },
+    { "name": "lookup_customer", "description": "Slå opp kunde" },
+    { "name": "get_customer_ledger", "description": "Hent kundereskontroposter" },
+    { "name": "get_customer_balance", "description": "Beregn utestående saldo for kunde" },
+    { "name": "analyze_revenue", "description": "Omsetningsanalyse med Sigma2-filterregler" },
+    { "name": "lookup_vendor", "description": "Slå opp leverandør" },
+    { "name": "get_vendor_ledger", "description": "Hent leverandørreskontroposter" },
+    { "name": "get_vendor_balance", "description": "Beregn utestående saldo for leverandør" },
+    { "name": "analyze_costs", "description": "Kostnadsanalyse fra leverandørreskontro" },
+    { "name": "search_transactions", "description": "Søk i hovedbokstransaksjoner" },
+    { "name": "get_account_balance", "description": "Beregn kontosaldo for et år" },
+    { "name": "list_available_years", "description": "List tilgjengelige år for hovedbok" },
+    { "name": "get_saldobalanse", "description": "Les saldobalanse for et år" },
+    { "name": "search_budget", "description": "Søk i budsjettransaksjoner" }
+  ],
+  "user_config": {
+    "kontoplan_dir": {
+      "type": "string",
+      "title": "Sti til Dimensjoner-mappen",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Dimensjoner",
+      "required": false
+    },
+    "hovedbok_dir": {
+      "type": "string",
+      "title": "Sti til Hovedbok-mappen",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Hovedbok",
+      "required": false
+    }
+  }
+}
