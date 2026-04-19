@@ -1,0 +1,37 @@
+{
+  "dxt_version": "0.1",
+  "name": "excelerator-gl",
+  "display_name": "Excelerator GL – Sigma2",
+  "version": "1.0.0",
+  "description": "Generer Excelerator-kompatible GL-bilag (.xlsx) for import i UBW Agresso via Citrix",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "excelerator_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with", "mcp",
+        "--with", "openpyxl",
+        "${__dirname}/excelerator_mcp_server.py"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "preview_gl_bilag",
+      "description": "Forhåndsvis et GL-bilag uten å generere fil – validerer at bilaget balanserer"
+    },
+    {
+      "name": "create_gl_bilag",
+      "description": "Generer GL-bilag som .xlsx på Skrivebordet, klar for import via Citrix"
+    },
+    {
+      "name": "list_gl_bilag",
+      "description": "List alle Excelerator GL-bilag på Skrivebordet"
+    }
+  ]
+}
