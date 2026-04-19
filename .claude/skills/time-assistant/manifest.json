@@ -1,0 +1,48 @@
+{
+  "dxt_version": "0.1",
+  "name": "time-assistant",
+  "display_name": "Time – Sigma2",
+  "version": "1.0.0",
+  "description": "Timetransaksjoner, prosjekttimer og flex-saldo fra Sigma2/UBW Agresso via OneDrive-synk",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "time_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with", "mcp",
+        "${__dirname}/time_mcp_server.py"
+      ],
+      "env": {
+        "TIME_TRANS_DIR": "${user_config.time_trans_dir}",
+        "TIME_DIM_DIR": "${user_config.time_dim_dir}"
+      }
+    }
+  },
+  "tools": [
+    { "name": "check_data", "description": "Sjekk tilgjengelige timetransaksjonsfiler" },
+    { "name": "list_available_years", "description": "List tilgjengelige år" },
+    { "name": "get_time_by_person", "description": "Timer per prosjekt for en person" },
+    { "name": "get_time_by_project", "description": "Ressursbruk på et prosjekt" },
+    { "name": "get_flex_balance", "description": "Flex-saldo for en person" },
+    { "name": "search_project", "description": "Søk i prosjektregisteret" }
+  ],
+  "user_config": {
+    "time_trans_dir": {
+      "type": "string",
+      "title": "Sti til Lønnstransaksjoner-mappen",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Lønnstransaksjoner",
+      "required": false
+    },
+    "time_dim_dir": {
+      "type": "string",
+      "title": "Sti til Dimensjoner-mappen",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Dimensjoner",
+      "required": false
+    }
+  }
+}
