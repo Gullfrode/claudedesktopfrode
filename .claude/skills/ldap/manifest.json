@@ -1,0 +1,57 @@
+{
+  "dxt_version": "0.1",
+  "name": "ldap-sikt",
+  "display_name": "LDAP – Sikt/Sigma2",
+  "version": "1.0.0",
+  "description": "Søk etter ansatte i Sikt/Sigma2 LDAP-katalogen (ldap.sikt.no)",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "ldap_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with", "mcp",
+        "--with", "ldap3",
+        "--with", "keyring",
+        "${__dirname}/ldap_mcp_server.py"
+      ],
+      "env": {
+        "LDAP_UID": "${user_config.ldap_uid}",
+        "LDAP_PASSWORD": "${user_config.ldap_password}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "ldap_search",
+      "description": "Søk etter ansatte på navn eller brukernavn"
+    },
+    {
+      "name": "ldap_get_user",
+      "description": "Hent brukerinfo for et bestemt uid (f.eks. frgri)"
+    },
+    {
+      "name": "ldap_get_reports",
+      "description": "Hent direkte rapporter for en leder"
+    }
+  ],
+  "user_config": {
+    "ldap_uid": {
+      "type": "string",
+      "title": "Sikt brukernavn",
+      "description": "Ditt Sikt-brukernavn, f.eks. frgri",
+      "required": true
+    },
+    "ldap_password": {
+      "type": "string",
+      "title": "LDAP-passord",
+      "description": "Ditt Sikt-passord",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
