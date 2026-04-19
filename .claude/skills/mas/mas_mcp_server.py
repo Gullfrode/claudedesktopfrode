@@ -249,43 +249,12 @@ def get_key_numbers() -> str:
         return f"Feil: {e}"
 
 
-@mcp.tool()
-def get_financial(
-    org: str = "",
-    project_leader_email: str = "",
-    period: str = "",
-    page: int = 1,
-) -> str:
-    """
-    Hent finansdata (kostnad per prosjekt) fra MAS.
-    org: ntnu, uib, uio eller uit (valgfritt)
-    project_leader_email: filtrer på prosjektleder-epost (valgfritt)
-    period: f.eks. '2025.2' (valgfritt, default = gjeldende periode)
-    page: sidenummer (20 prosjekter per side, default 1)
-
-    Returnerer kostnad per prosjekt, system og ressurstype (CPU/GPU-timer, pris, beløp).
-    """
-    params: dict = {}
-    if org:
-        params["org"] = org.lower()
-    if project_leader_email:
-        params["pl"] = project_leader_email
-    if period:
-        params["periods"] = [period]
-    if page > 1:
-        params["page"] = page
-
-    data = api_get("/financial/", params if params else None)
-    if isinstance(data, dict) and "error" in data:
-        return data["error"]
-
-    results = data.get("results", [])
-    meta = data.get("meta", {})
-
+def _parse_financial_results(results: list) -> list:
     summary = []
     for r in results:
         pl = r.get("project_leader", {})
         pl_navn = f"{pl.get('firstname', '')} {pl.get('lastname', '')}".strip()
+        pl_email = pl.get("email", "")
         for proj, perioder in r.items():
             if proj == "project_leader":
                 continue
@@ -308,15 +277,70 @@ def get_financial(
                 summary.append({
                     "project": proj,
                     "project_leader": pl_navn,
+                    "project_leader_email": pl_email,
                     "org": pl.get("org", ""),
                     "period": per,
                     "total_cost_nok": round(total, 2),
                     "breakdown": breakdown,
                 })
+    return summary
+
+
+@mcp.tool()
+def get_financial(
+    org: str = "",
+    project_leader_email: str = "",
+    period: str = "",
+    page: int = 1,
+    account_number: str = "",
+) -> str:
+    """
+    Hent finansdata (kostnad per prosjekt) fra MAS.
+    org: ntnu, uib, uio eller uit (valgfritt)
+    project_leader_email: filtrer på prosjektleder-epost (valgfritt)
+    period: f.eks. '2025.2' (valgfritt, default = gjeldende periode)
+    page: sidenummer (20 prosjekter per side, default 1) – ignoreres hvis account_number er satt
+    account_number: prosjektnummer, f.eks. NN5020K – søker gjennom alle sider automatisk
+
+    Returnerer kostnad per prosjekt, system og ressurstype (CPU/GPU-timer, pris, beløp).
+    Inkluderer prosjektleders e-postadresse.
+    """
+    params: dict = {}
+    if org:
+        params["org"] = org.lower()
+    if project_leader_email:
+        params["pl"] = project_leader_email
+    if period:
+        params["periods"] = [period]
+
+    if account_number:
+        target = account_number.upper()
+        current_page = 1
+        while True:
+            p = dict(params)
+            if current_page > 1:
+                p["page"] = current_page
+            data = api_get("/financial/", p if p else None)
+            if isinstance(data, dict) and "error" in data:
+                return data["error"]
+            meta = data.get("meta", {})
+            for entry in _parse_financial_results(data.get("results", [])):
+                if entry["project"].upper() == target:
+                    return json.dumps({"meta": meta, "results": [entry]}, indent=2, ensure_ascii=False)
+            if not meta.get("has_next"):
+                break
+            current_page += 1
+        return f"Prosjekt {account_number} ikke funnet i finansdata."
+
+    if page > 1:
+        params["page"] = page
+    data = api_get("/financial/", params if params else None)
+    if isinstance(data, dict) and "error" in data:
+        return data["error"]
 
     return json.dumps({
-        "meta": meta,
-        "results": summary,
+        "meta": data.get("meta", {}),
+        "results": _parse_financial_results(data.get("results", [])),
     }, indent=2, ensure_ascii=False)
 
 
