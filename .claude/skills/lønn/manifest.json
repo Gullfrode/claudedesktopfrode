@@ -1,0 +1,70 @@
+{
+  "dxt_version": "0.1",
+  "name": "lonn-sigma2",
+  "display_name": "Lønn – Sigma2",
+  "version": "1.0.0",
+  "description": "Lønnstransaksjoner og ansattoversikt fra Sigma2/UBW Agresso via OneDrive-synk",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "lonn_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with", "mcp",
+        "${__dirname}/lonn_mcp_server.py"
+      ],
+      "env": {
+        "LONN_TRANS_FILE": "${user_config.lonn_trans_file}",
+        "LONN_DIM_DIR": "${user_config.lonn_dim_dir}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "check_data",
+      "description": "Sjekk at lønnsdatafiler er tilgjengelig og vis sist oppdatert"
+    },
+    {
+      "name": "lookup_employee",
+      "description": "Finn ansatt på navn eller ressursnummer"
+    },
+    {
+      "name": "list_employees",
+      "description": "List alle ansatte/ressurser"
+    },
+    {
+      "name": "get_salary_overview",
+      "description": "Hent lønnsoversikt for en ansatt, gruppert per periode og lønnart"
+    },
+    {
+      "name": "get_period_summary",
+      "description": "Hent aggregert lønnskostnadssammendrag for en periode"
+    },
+    {
+      "name": "search_lonnart",
+      "description": "Søk i lønnartregisteret på kode eller beskrivelse"
+    },
+    {
+      "name": "get_employee_projects",
+      "description": "Hent prosjektkoblinger for en ansatt"
+    }
+  ],
+  "user_config": {
+    "lonn_trans_file": {
+      "type": "string",
+      "title": "Sti til AlleLønnstransaksjoner.csv",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Lønnstransaksjoner\\AlleLønnstransaksjoner.csv",
+      "required": false
+    },
+    "lonn_dim_dir": {
+      "type": "string",
+      "title": "Sti til Dimensjoner-mappen",
+      "description": "La stå tom for automatisk deteksjon via OneDrive. Eksempel Windows: C:\\Users\\frgri\\Sikt - Sigma2 - Økonomi - Dimensjoner",
+      "required": false
+    }
+  }
+}
