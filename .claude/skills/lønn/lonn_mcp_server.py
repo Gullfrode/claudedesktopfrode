@@ -25,9 +25,13 @@ def _find_onedrive_sikt() -> Optional[Path]:
     if sys.platform == "darwin":
         base = Path.home() / "Library" / "CloudStorage"
         if base.exists():
-            for d in base.iterdir():
-                if "OneDrive" in d.name and "Sikt" in d.name:
-                    return d
+            # Prefer Deltebiblioteker (shared libraries) over personal OneDrive
+            candidates = sorted(
+                (d for d in base.iterdir() if "OneDrive" in d.name and "Sikt" in d.name),
+                key=lambda d: (0 if "Deltebiblioteker" in d.name else 1),
+            )
+            if candidates:
+                return candidates[0]
     elif sys.platform == "win32":
         home = Path.home()
         for c in [home / "Sikt", home / "OneDrive - Sikt"]:
