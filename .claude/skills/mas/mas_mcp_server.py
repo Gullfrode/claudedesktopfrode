@@ -60,7 +60,7 @@ def api_get(path: str, params: dict = None) -> dict | list:
     }
     req = urllib.request.Request(url, headers=headers)
     try:
-        resp = urllib.request.urlopen(req, timeout=30)
+        resp = urllib.request.urlopen(req, timeout=15)
         return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         return {"error": f"HTTP {e.code}: {e.reason}"}
@@ -315,7 +315,8 @@ def get_financial(
 
     if account_number:
         target = account_number.upper()
-        periods_to_try = [None, "2025.2", "2025.1", "2024.2"] if not period else [period]
+        # 2025.2 først – flest prosjekter har data der. Gjeldende (2026.1) er sjelden fakturert.
+        periods_to_try = ["2025.2", "2025.1", None, "2024.2"] if not period else [period]
         all_hits = []
         for try_period in periods_to_try:
             p = dict(params)
@@ -328,7 +329,7 @@ def get_financial(
                     pp["page"] = current_page
                 data = api_get("/financial/", pp if pp else None)
                 if isinstance(data, dict) and "error" in data:
-                    return data["error"]
+                    break  # hopp over denne perioden ved feil
                 meta = data.get("meta", {})
                 for entry in _parse_financial_results(data.get("results", [])):
                     if entry["project"].upper() == target:
@@ -336,6 +337,8 @@ def get_financial(
                 if not meta.get("has_next"):
                     break
                 current_page += 1
+            if all_hits:
+                break  # stopp så snart vi har treff
         if all_hits:
             return json.dumps({"results": all_hits}, indent=2, ensure_ascii=False)
         return f"Prosjekt {account_number} ikke funnet i finansdata (søkte gjeldende + 3 tidligere perioder)."
