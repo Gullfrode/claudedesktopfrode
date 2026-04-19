@@ -1,0 +1,57 @@
+{
+  "dxt_version": "0.1",
+  "name": "rt-mcp",
+  "display_name": "RT – Request Tracker (sak.sikt.no)",
+  "version": "1.0.0",
+  "description": "Henter og søker i RT-saker fra Sikt/Sigma2s Request Tracker",
+  "author": {
+    "name": "Sigma2 AS"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "rt_mcp_server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "${__dirname}/rt_mcp_server.py"
+      ],
+      "env": {
+        "RT_TOKEN": "${user_config.rt_token}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list_open_tickets",
+      "description": "Hent åpne RT-saker for en bruker (standard: frgri/Frode)"
+    },
+    {
+      "name": "list_team_tickets",
+      "description": "Hent åpne RT-saker for hele teamet"
+    },
+    {
+      "name": "get_ticket",
+      "description": "Hent metadata for én RT-sak (emne, status, kø, eier)"
+    },
+    {
+      "name": "get_ticket_history",
+      "description": "Hent korrespondanse og innhold i en RT-sak"
+    },
+    {
+      "name": "search_tickets",
+      "description": "Søk i RT med TicketSQL"
+    }
+  ],
+  "user_config": {
+    "rt_token": {
+      "type": "string",
+      "title": "RT API Token",
+      "description": "Token fra sak.sikt.no (RT_TOKEN fra .env)",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
