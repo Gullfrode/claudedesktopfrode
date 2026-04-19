@@ -315,22 +315,30 @@ def get_financial(
 
     if account_number:
         target = account_number.upper()
-        current_page = 1
-        while True:
+        periods_to_try = [None, "2025.2", "2025.1", "2024.2"] if not period else [period]
+        all_hits = []
+        for try_period in periods_to_try:
             p = dict(params)
-            if current_page > 1:
-                p["page"] = current_page
-            data = api_get("/financial/", p if p else None)
-            if isinstance(data, dict) and "error" in data:
-                return data["error"]
-            meta = data.get("meta", {})
-            for entry in _parse_financial_results(data.get("results", [])):
-                if entry["project"].upper() == target:
-                    return json.dumps({"meta": meta, "results": [entry]}, indent=2, ensure_ascii=False)
-            if not meta.get("has_next"):
-                break
-            current_page += 1
-        return f"Prosjekt {account_number} ikke funnet i finansdata."
+            if try_period:
+                p["periods"] = try_period
+            current_page = 1
+            while True:
+                pp = dict(p)
+                if current_page > 1:
+                    pp["page"] = current_page
+                data = api_get("/financial/", pp if pp else None)
+                if isinstance(data, dict) and "error" in data:
+                    return data["error"]
+                meta = data.get("meta", {})
+                for entry in _parse_financial_results(data.get("results", [])):
+                    if entry["project"].upper() == target:
+                        all_hits.append(entry)
+                if not meta.get("has_next"):
+                    break
+                current_page += 1
+        if all_hits:
+            return json.dumps({"results": all_hits}, indent=2, ensure_ascii=False)
+        return f"Prosjekt {account_number} ikke funnet i finansdata (søkte gjeldende + 3 tidligere perioder)."
 
     if page > 1:
         params["page"] = page
