@@ -1,0 +1,1837 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sigma2 · Claude Cowork — Onboarding</title>
+<style>
+/* Sigma2 brand tokens — derived from sigma2-designmanual-web-v3.pdf */
+
+:root {
+  /* Sigma2 — Openness (ocean/teal) — primary */
+  --s2-teal-100: #007C92;
+  --s2-teal-hover: #00758A;
+  --s2-teal-80:  #33969E; /* approx */
+  --s2-teal-50:  #BFDEE4; /* manual value for 50 tint is approx bfdee4 */
+  --s2-teal-25:  #DFECEF;
+
+  /* Sigma2 — Customer focus (coral) */
+  --s2-coral-100: #FF956E;
+  --s2-coral-hover: #DB7853;
+  --s2-coral-50:  #FFCAB7;
+  --s2-coral-25:  #FFE4D7;
+
+  /* Sigma2 — Corporate social responsibility (slate) */
+  --s2-slate-100: #51626F;
+  --s2-slate-80:  #6F7E89;
+  --s2-slate-50:  #A8B0B7;
+  --s2-slate-25:  #D3D7DB;
+
+  /* Dark page background mix (from manual: "mix of two dark colors") */
+  --s2-bg-dark-a: #2F4455; /* darker */
+  --s2-bg-dark-b: #526B7D; /* lighter */
+  --s2-bg-dark:   #253B4B; /* used as page bg */
+
+  /* Earth (NRIS accent) — reserved for subtle accents only */
+  --s2-earth-100: #C79900;
+
+  /* Neutrals */
+  --s2-white: #FFFFFF;
+  --s2-near-white: #F6F8F9;
+  --s2-ink: #0E222E;
+
+  /* Text on dark */
+  --s2-text-on-dark: #EAF0F3;
+  --s2-text-on-dark-muted: #B4C2CB;
+  --s2-border-on-dark: rgba(255,255,255,0.08);
+  --s2-surface-on-dark: #2A4050; /* card surface on dark */
+  --s2-surface-on-dark-2: #33495A;
+
+  /* Text on light */
+  --s2-text-on-light: #1A2C37;
+  --s2-text-on-light-muted: #51626F;
+  --s2-border-on-light: #D7DEE2;
+
+  /* Scale — manual says 32 and 16 px */
+  --s2-space-1: 8px;
+  --s2-space-2: 16px;
+  --s2-space-3: 24px;
+  --s2-space-4: 32px;
+  --s2-space-5: 48px;
+  --s2-space-6: 64px;
+  --s2-space-7: 96px;
+
+  /* Radii — one rounded corner motif, otherwise small */
+  --s2-radius-s: 6px;
+  --s2-radius-m: 12px;
+  --s2-radius-l: 24px;      /* used for the "one rounded corner" motif */
+  --s2-radius-xl: 40px;
+  --s2-radius-pill: 999px;
+
+  /* Lines — 4px motif */
+  --s2-stroke-bold: 4px;
+  --s2-stroke-reg:  2px;
+  --s2-stroke-thin: 1px;
+
+  /* Typography — Calibri per manual; Arial fallback for web */
+  --s2-font: "Calibri", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  /* Shadows (sparse) */
+  --s2-shadow-soft: 0 8px 40px rgba(0,0,0,0.25);
+  --s2-shadow-card-dark: 0 2px 0 rgba(255,255,255,0.02) inset, 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* Type scale per manual:
+   h1 54/32  w600
+   h2 40/30  w300
+   h3 28     w400
+   h4 28     w400
+   h5 18     w400
+   p  18     w400
+*/
+.s2-h1 { font-family: var(--s2-font); font-weight: 600; font-size: 54px; line-height: 1.05; letter-spacing: -0.01em; margin:0; }
+.s2-h2 { font-family: var(--s2-font); font-weight: 300; font-size: 40px; line-height: 1.1; letter-spacing: -0.005em; margin:0; }
+.s2-h3 { font-family: var(--s2-font); font-weight: 400; font-size: 28px; line-height: 1.2; margin:0; }
+.s2-h4 { font-family: var(--s2-font); font-weight: 400; font-size: 28px; line-height: 1.2; margin:0; }
+.s2-h5 { font-family: var(--s2-font); font-weight: 400; font-size: 18px; line-height: 1.4; margin:0; }
+.s2-p  { font-family: var(--s2-font); font-weight: 400; font-size: 18px; line-height: 1.55; margin:0; }
+.s2-small { font-family: var(--s2-font); font-weight: 400; font-size: 14px; line-height: 1.45; }
+.s2-mono  { font-family: "SF Mono", "Menlo", "Consolas", monospace; font-size: 13px; line-height: 1.5; }
+.s2-overline { font-family: var(--s2-font); font-weight: 600; font-size: 12px; line-height: 1.2; letter-spacing: 0.14em; text-transform: uppercase; }
+
+@media (max-width: 720px) {
+  .s2-h1 { font-size: 32px; }
+  .s2-h2 { font-size: 30px; }
+}
+
+/* Base reset */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: var(--s2-font); color: var(--s2-text-on-light); background: var(--s2-white); }
+button { font-family: var(--s2-font); }
+
+/* Buttons — style 1 (outline → fill hover) */
+.s2-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--s2-font);
+  font-size: 16px; font-weight: 600;
+  padding: 12px 22px;
+  border-radius: var(--s2-radius-pill);
+  cursor: pointer; transition: all 150ms ease-out;
+  border: 2px solid currentColor;
+  text-decoration: none;
+}
+.s2-btn-primary {
+  background: var(--s2-teal-100); color: #fff; border-color: var(--s2-teal-100);
+}
+.s2-btn-primary:hover { background: var(--s2-teal-hover); border-color: var(--s2-teal-hover); }
+.s2-btn-outline {
+  background: transparent; color: var(--s2-teal-100); border-color: var(--s2-teal-100);
+}
+.s2-btn-outline:hover { background: var(--s2-teal-100); color: #fff; }
+
+.s2-btn-on-dark-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,0.65); }
+.s2-btn-on-dark-outline:hover { background: #fff; color: var(--s2-bg-dark); border-color:#fff; }
+
+.s2-btn-ghost {
+  background: transparent; color: inherit; border-color: transparent;
+  padding: 10px 14px;
+}
+.s2-btn-ghost:hover { background: rgba(255,255,255,0.06); }
+
+/* Focus */
+:focus-visible { outline: 2px solid var(--s2-teal-100); outline-offset: 3px; border-radius: 4px; }
+
+
+/* Sigma2 Cowork onboarding — visual styles */
+
+/* Page layout */
+.s2-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 300ms ease, color 300ms ease;
+}
+.s2-app.theme-dark {
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(82,107,125,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgba(0,124,146,0.35) 0%, transparent 55%),
+    linear-gradient(180deg, #253B4B 0%, #1A2C37 100%);
+  color: var(--s2-text-on-dark);
+}
+.s2-app.theme-light {
+  background: var(--s2-near-white);
+  color: var(--s2-text-on-light);
+}
+
+/* Accent (teal) */
+.s2-accent { color: var(--s2-teal-100); }
+.theme-dark .s2-accent { color: #5FD3E3; }
+.muted { color: var(--s2-text-on-light-muted); opacity: 0.8; }
+.theme-dark .muted { color: var(--s2-text-on-dark-muted); opacity: 0.9; }
+
+/* Background motif (top-right circles + bottom line) */
+.s2-bg-motif {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  color: rgba(255,255,255,0.06);
+}
+.theme-light .s2-bg-motif { color: rgba(0,124,146,0.10); }
+.s2-bg-motif svg { width: 100%; height: 100%; }
+
+/* Top bar */
+.s2-topbar {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 48px;
+}
+.s2-brand { display: flex; align-items: center; gap: 14px; }
+.s2-brand svg { color: inherit; }
+.s2-brand-org { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; font-weight: 600; }
+.s2-brand-app { font-size: 18px; font-weight: 600; margin-top: 2px; }
+
+.s2-top-right { display: flex; align-items: center; gap: 16px; }
+
+.s2-lang-toggle {
+  display: inline-flex; border-radius: 99px; overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.15);
+}
+.theme-light .s2-lang-toggle { border-color: var(--s2-border-on-light); }
+.s2-lang-toggle button {
+  background: transparent; border: 0; padding: 6px 14px;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+  color: inherit; cursor: pointer; opacity: 0.7;
+  font-family: var(--s2-font);
+}
+.s2-lang-toggle button.on {
+  background: var(--s2-teal-100); color: #fff; opacity: 1;
+}
+.s2-skip { opacity: 0.7; font-size: 14px; }
+
+/* Step bar */
+.s2-stepbar {
+  position: relative; z-index: 2;
+  display: flex; gap: 0; align-items: center;
+  padding: 4px 48px 16px;
+  max-width: 1240px; width: 100%; margin: 0 auto;
+}
+.s2-step { display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; }
+.s2-step.todo { cursor: not-allowed; }
+.s2-step.done:hover .s2-step-dot { filter: brightness(1.1); }
+.s2-step.done:hover .s2-step-label { text-decoration: underline; }
+.s2-step:last-child { flex: 0 0 auto; }
+.s2-step-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 2px solid currentColor; opacity: 0.4;
+  font-size: 13px; font-weight: 600;
+  flex: 0 0 28px;
+  background: transparent;
+}
+.s2-step.active .s2-step-dot { opacity: 1; background: var(--s2-teal-100); border-color: var(--s2-teal-100); color: #fff; }
+.s2-step.done .s2-step-dot { opacity: 1; background: var(--s2-teal-100); border-color: var(--s2-teal-100); color: #fff; }
+.s2-step-label { font-size: 13px; font-weight: 600; opacity: 0.6; }
+.s2-step.active .s2-step-label, .s2-step.done .s2-step-label { opacity: 1; }
+.s2-step-line { flex: 1; height: 2px; background: currentColor; opacity: 0.25; margin: 0 14px 0 2px; }
+.s2-step.done .s2-step-line { opacity: 1; background: var(--s2-teal-100); }
+
+/* Main */
+.s2-main {
+  position: relative; z-index: 2;
+  flex: 1;
+  padding: 16px 48px 64px;
+  max-width: 1240px; width: 100%;
+  margin: 0 auto;
+}
+
+/* Footer */
+.s2-footer {
+  position: relative; z-index: 2;
+  padding: 20px 48px 32px;
+  display: flex; justify-content: space-between;
+  opacity: 0.7; font-size: 13px;
+}
+
+/* ─── Step 1 — Welcome ─────────────────────────────────────── */
+.s2-step-welcome {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.05fr) minmax(420px, 1fr);
+  gap: 64px;
+  align-items: center;
+  padding-top: 24px;
+}
+.s2-welcome-left { max-width: 560px; }
+.s2-title {
+  margin-top: 14px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-size: clamp(40px, 4.6vw, 62px);
+  line-height: 1.02;
+}
+.s2-title-sm {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1;
+}
+.s2-lede { margin-top: 18px; max-width: 520px; opacity: 0.85; }
+
+.s2-points {
+  margin-top: 36px;
+  display: flex; flex-direction: column; gap: 20px;
+  border-left: 4px solid var(--s2-teal-100);
+  padding-left: 24px;
+}
+.s2-point { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; }
+.s2-point-num { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; opacity: 0.6; padding-top: 3px; }
+.s2-point-title { font-weight: 600; font-size: 18px; }
+.s2-point-body { font-size: 16px; line-height: 1.5; opacity: 0.8; margin-top: 4px; }
+
+.s2-actions { margin-top: 40px; display: flex; gap: 12px; }
+.s2-actions.center { justify-content: center; margin-top: 32px; }
+
+/* Big teal button override on dark */
+.theme-dark .s2-btn-primary { background: var(--s2-teal-100); color: #fff; border-color: var(--s2-teal-100); }
+.theme-dark .s2-btn-primary:hover { background: #00A9C3; border-color: #00A9C3; }
+.s2-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.s2-btn.lg { padding: 16px 30px; font-size: 18px; }
+
+/* Hero card (chat preview) */
+.s2-welcome-right { position: relative; display: flex; justify-content: center; }
+.s2-hero-card {
+  position: relative;
+  width: 100%; max-width: 560px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px 20px var(--s2-radius-xl) 20px; /* one big rounded corner (bottom-right) */
+  padding: 28px;
+  box-shadow: var(--s2-shadow-soft);
+  overflow: hidden;
+  min-height: 420px;
+  backdrop-filter: blur(4px);
+}
+.theme-light .s2-hero-card {
+  background: #fff;
+  border-color: var(--s2-border-on-light);
+  box-shadow: 0 12px 40px rgba(47,68,85,0.08);
+}
+.s2-motif {
+  position: absolute;
+  color: rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+.theme-light .s2-motif { color: rgba(0,124,146,0.10); }
+.s2-motif.motif-a { right: -120px; top: -120px; width: 420px; height: 420px; }
+
+.s2-hero-chat { position: relative; display: flex; flex-direction: column; gap: 16px; }
+.s2-chat-row { display: flex; }
+.s2-chat-row.user { justify-content: flex-end; }
+.s2-chat-row.claude { flex-direction: column; gap: 10px; }
+
+.s2-chat-bubble {
+  max-width: 88%;
+  padding: 14px 18px;
+  font-size: 15px; line-height: 1.5;
+  border-radius: 16px 16px 4px 16px;
+}
+.s2-chat-bubble.user {
+  background: var(--s2-teal-100); color: #fff;
+  border-radius: 16px 16px 4px 16px;
+}
+.s2-chat-bubble.claude {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px 16px 16px 4px;
+}
+.theme-light .s2-chat-bubble.claude {
+  background: var(--s2-near-white); border-color: var(--s2-border-on-light); color: var(--s2-text-on-light);
+}
+
+.s2-chat-tool {
+  border: 1px dashed rgba(255,255,255,0.18);
+  border-radius: 10px; padding: 10px 12px;
+  background: rgba(0,0,0,0.18);
+  align-self: flex-start;
+  max-width: 88%;
+}
+.theme-light .s2-chat-tool { background: #F6F8F9; border-color: #C7D1D7; color: var(--s2-text-on-light); }
+.s2-chat-tool-head { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.s2-chat-tool-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--s2-coral-100); box-shadow: 0 0 0 4px rgba(255,149,110,0.18); }
+.s2-chat-tool-name { opacity: 0.85; }
+.s2-chat-tool-status { margin-left: auto; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: rgba(56,210,140,0.2); color: #8CF0BC; }
+.theme-light .s2-chat-tool-status { background: #D4F6E6; color: #0E6938; }
+.s2-chat-tool-body { margin-top: 6px; font-size: 12px; }
+.s2-chat-tool-body .dim { opacity: 0.7; margin-right: 6px; }
+
+/* ─── Step cards (2-4) ────────────────────────────────────── */
+.s2-card-step {
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px 20px var(--s2-radius-xl) 20px;
+  padding: 40px 48px 36px;
+  box-shadow: var(--s2-shadow-soft);
+  overflow: hidden;
+}
+.theme-light .s2-card-step {
+  background: #fff; border-color: var(--s2-border-on-light);
+  box-shadow: 0 12px 40px rgba(47,68,85,0.08);
+}
+.s2-card-step::after {
+  /* Decorative circle motif in the rounded corner */
+  content: "";
+  position: absolute;
+  right: -80px; bottom: -80px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+.theme-light .s2-card-step::after { border-color: rgba(0,124,146,0.08); }
+
+.s2-overline { display: inline-block; }
+.s2-overline.muted { opacity: 0.55; }
+
+/* ─── Step 2 — Identity ───────────────────────────────────── */
+.s2-identity { margin-top: 28px; }
+.s2-feide-btn {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 18px 26px;
+  background: #1E1E1E; color: #fff;
+  border: 2px solid #1E1E1E;
+  border-radius: var(--s2-radius-pill);
+  font-family: var(--s2-font);
+  font-size: 17px; font-weight: 600;
+  cursor: pointer; transition: all 150ms ease-out;
+}
+.s2-feide-btn:hover { background: #2B2B2B; }
+.s2-feide-btn.loading { opacity: 0.7; cursor: progress; }
+
+.s2-identity-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 22px; align-items: center;
+  padding: 22px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px 16px 28px 16px;
+  max-width: 680px;
+}
+.theme-light .s2-identity-card { background: var(--s2-near-white); border-color: var(--s2-border-on-light); }
+
+.s2-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--s2-coral-100); color: #3B1D12;
+  display: grid; place-items: center;
+  font-weight: 700; font-size: 22px;
+  letter-spacing: 0.02em;
+}
+.s2-avatar.sm { width: 44px; height: 44px; font-size: 16px; }
+.s2-identity-name { font-size: 20px; font-weight: 600; }
+.s2-identity-mail { font-size: 14px; opacity: 0.7; margin-top: 2px; }
+.s2-identity-kv { display: flex; gap: 32px; margin-top: 12px; flex-wrap: wrap; }
+.s2-identity-kv .k { display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.55; font-weight: 600; }
+.s2-identity-kv .v { display: block; font-size: 15px; font-weight: 600; margin-top: 2px; }
+.s2-identity-badge {
+  align-self: flex-start;
+  display: inline-flex; align-items: center;
+  padding: 6px 12px; font-size: 13px; font-weight: 600;
+  background: rgba(56,210,140,0.12); color: #38D28C;
+  border: 1px solid rgba(56,210,140,0.25);
+  border-radius: 99px;
+}
+.theme-light .s2-identity-badge { background: #E6F7EE; color: #0E6938; border-color: #9CD9B9; }
+
+.s2-identity-note { margin-top: 18px; opacity: 0.7; max-width: 600px; }
+
+/* Nav row */
+.s2-nav-row { margin-top: 36px; display: flex; justify-content: space-between; align-items: center; }
+.s2-nav-back { padding: 10px 14px; }
+
+/* ─── Step 3 — Tools ──────────────────────────────────────── */
+.s2-tools-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.s2-tools-head-right { display: flex; align-items: center; gap: 18px; }
+.s2-selected-count { font-size: 14px; opacity: 0.8; }
+.s2-selected-count strong { font-size: 20px; color: var(--s2-coral-100); margin-right: 2px; }
+.s2-link { color: var(--s2-teal-100); font-weight: 600; font-size: 14px; border: 0; background: transparent; cursor: pointer; padding: 8px 10px; border-radius: 6px; font-family: var(--s2-font); }
+.theme-dark .s2-link { color: #5FD3E3; }
+.s2-link:hover { text-decoration: underline; }
+
+.s2-tool-grid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.s2-tool-card {
+  position: relative;
+  padding: 22px;
+  border-radius: 14px 14px var(--s2-radius-l) 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 180ms ease-out;
+  overflow: hidden;
+}
+.theme-light .s2-tool-card { background: #fff; border-color: var(--s2-border-on-light); }
+.s2-tool-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0,169,195,0.5);
+  background: rgba(255,255,255,0.055);
+}
+.theme-light .s2-tool-card:hover { background: #FBFCFD; border-color: #BFDEE4; box-shadow: 0 8px 24px rgba(47,68,85,0.06); }
+.s2-tool-card.on {
+  border-color: var(--s2-teal-100);
+  background: linear-gradient(180deg, rgba(0,124,146,0.16), rgba(0,124,146,0.06));
+  box-shadow: 0 0 0 1px var(--s2-teal-100);
+}
+.theme-light .s2-tool-card.on {
+  background: linear-gradient(180deg, rgba(0,124,146,0.05), rgba(191,222,228,0.15));
+  border-color: var(--s2-teal-100);
+  box-shadow: 0 0 0 1px var(--s2-teal-100);
+}
+
+.s2-tool-top { display: flex; justify-content: space-between; align-items: center; }
+
+.s2-tool-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  flex: 0 0 44px;
+}
+.theme-light .s2-tool-icon { background: var(--s2-near-white); color: var(--s2-teal-100); }
+
+/* Tool icons use ONLY the three Sigma2 brand colors: teal, coral, slate */
+.tool-ldap    { color: #5FD3E3; } .theme-light .tool-ldap    { color: var(--s2-teal-100); background: #DFECEF; }
+.tool-mas     { color: #5FD3E3; } .theme-light .tool-mas     { color: var(--s2-teal-100); background: #DFECEF; }
+.tool-rt      { color: #FF956E; } .theme-light .tool-rt      { color: #DB7853;            background: #FFE4D7; }
+.tool-timer   { color: #B4C2CB; } .theme-light .tool-timer   { color: var(--s2-slate-100);background: #E6EAED; }
+.tool-lonn    { color: #B4C2CB; } .theme-light .tool-lonn    { color: var(--s2-slate-100);background: #E6EAED; }
+.tool-regnskap{ color: #B4C2CB; } .theme-light .tool-regnskap{ color: var(--s2-slate-100);background: #E6EAED; }
+.tool-agresso { color: #FF956E; } .theme-light .tool-agresso { color: #DB7853;            background: #FFE4D7; }
+
+.s2-tool-icon-sm {
+  width: 28px; height: 28px; border-radius: 7px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.06);
+  flex: 0 0 28px;
+}
+.s2-tool-icon-sm svg { width: 18px; height: 18px; }
+.theme-light .s2-tool-icon-sm { background: var(--s2-near-white); }
+
+.s2-tool-body { margin-top: 16px; }
+.s2-tool-name-row { display: flex; align-items: center; gap: 10px; }
+.s2-tool-name { font-weight: 600; font-size: 20px; }
+.s2-tool-rec {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+  padding: 3px 9px; border-radius: 99px;
+  background: rgba(255,149,110,0.15);
+  color: var(--s2-coral-100);
+  border: 1px solid rgba(255,149,110,0.35);
+}
+.theme-light .s2-tool-rec { background: #FFE4D7; color: #B25433; border-color: #FFCAB7; }
+
+.s2-tool-tag { margin-top: 6px; font-size: 14px; line-height: 1.45; opacity: 0.8; }
+.s2-tool-scope {
+  margin-top: 14px; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; gap: 8px; align-items: center;
+  opacity: 0.7;
+}
+.theme-light .s2-tool-scope { border-top-color: var(--s2-border-on-light); }
+
+.s2-tool-footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.theme-light .s2-tool-footer { border-top-color: rgba(81,98,111,0.12); }
+.s2-tool-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--s2-teal-50);
+  text-decoration: none;
+  font-size: 12px;
+  opacity: 0.72;
+  transition: opacity 0.15s;
+}
+.s2-tool-download:hover { opacity: 1; text-decoration: underline; }
+.theme-light .s2-tool-download { color: var(--s2-teal-100); }
+
+/* Toggle switch */
+.s2-toggle {
+  width: 44px; height: 26px; border-radius: 99px;
+  background: rgba(255,255,255,0.12); border: 0; cursor: pointer;
+  position: relative; transition: background 150ms ease-out;
+  flex: 0 0 44px;
+}
+.theme-light .s2-toggle { background: #D7DEE2; }
+.s2-toggle.on { background: var(--s2-teal-100); }
+.s2-toggle-knob {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff;
+  transition: left 150ms ease-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.s2-toggle.on .s2-toggle-knob { left: 21px; }
+
+/* ─── Step 4 — Confirm ────────────────────────────────────── */
+.s2-summary {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1.1fr);
+  gap: 40px;
+}
+@media (max-width: 860px) { .s2-summary { grid-template-columns: 1fr; gap: 28px; } }
+
+.s2-summary-user { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.s2-summary-name { font-weight: 600; font-size: 18px; }
+.s2-summary-sub { font-size: 14px; opacity: 0.7; margin-top: 2px; }
+
+.s2-rights { margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.s2-rights li {
+  padding: 10px 14px 10px 34px;
+  border-left: 4px solid var(--s2-teal-100);
+  background: rgba(255,255,255,0.03);
+  position: relative;
+  font-size: 15px; line-height: 1.4;
+  border-radius: 0 8px 8px 0;
+}
+.theme-light .s2-rights li { background: var(--s2-near-white); }
+.s2-rights li::before {
+  content: ""; position: absolute; left: 14px; top: 16px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--s2-teal-100);
+}
+
+.s2-count-chip {
+  display: inline-block; min-width: 22px; padding: 0 7px; height: 22px;
+  line-height: 22px; text-align: center;
+  background: var(--s2-coral-100); color: #3B1D12;
+  border-radius: 99px; font-size: 12px; font-weight: 700;
+  margin-left: 6px; vertical-align: 2px;
+}
+
+.s2-active-tools { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.s2-active-tools li {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+}
+.theme-light .s2-active-tools li { background: #fff; border-color: var(--s2-border-on-light); }
+.s2-active-name { font-weight: 600; }
+.s2-active-scope { opacity: 0.7; margin-top: 2px; }
+.s2-empty { opacity: 0.5; font-style: italic; padding: 10px 0; }
+
+/* ─── Step 5 — Done ───────────────────────────────────────── */
+.s2-card-step.done { padding-top: 36px; text-align: left; }
+.s2-done-top { display: flex; flex-direction: column; gap: 10px; }
+.s2-done-check {
+  width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--s2-teal-100);
+  margin-bottom: 8px;
+}
+.theme-dark .s2-done-check { color: #5FD3E3; }
+
+.s2-done-examples { margin-top: 32px; }
+.s2-prompt-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.s2-prompt-chip {
+  display: flex; align-items: flex-start; gap: 14px;
+  text-align: left;
+  padding: 14px 18px;
+  border-radius: 8px 8px 18px 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-family: var(--s2-font); font-size: 15px; line-height: 1.4;
+  color: inherit; cursor: pointer;
+  transition: all 150ms ease-out;
+}
+.theme-light .s2-prompt-chip { background: #fff; border-color: var(--s2-border-on-light); }
+.s2-prompt-chip:hover { border-color: var(--s2-teal-100); }
+.s2-prompt-chip.on { border-color: var(--s2-teal-100); background: rgba(0,124,146,0.12); }
+.s2-prompt-chip-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--s2-coral-100);
+  flex: 0 0 28px;
+  padding-top: 2px;
+}
+
+.s2-done-active { margin-top: 32px; }
+.s2-done-chips { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+.s2-done-chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-weight: 600; font-size: 14px;
+}
+.theme-light .s2-done-chip { background: #fff; border-color: var(--s2-border-on-light); }
+
+/* ─── Tweaks panel ───────────────────────────────────────── */
+.s2-tweaks {
+  position: fixed; right: 20px; bottom: 20px;
+  width: 300px;
+  background: #1E2F3B;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px 14px 24px 14px;
+  padding: 18px;
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.s2-tweaks-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.s2-tweaks-close { background: transparent; border: 0; color: inherit; font-size: 22px; cursor: pointer; line-height: 1; }
+.s2-tweaks-row { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.s2-tweaks-row .s2-overline { font-size: 11px; opacity: 0.6; }
+.s2-seg { display: inline-flex; background: rgba(255,255,255,0.08); border-radius: 99px; padding: 3px; }
+.s2-seg button {
+  background: transparent; color: #fff; border: 0; cursor: pointer;
+  padding: 7px 14px; border-radius: 99px;
+  font-family: var(--s2-font); font-size: 13px; font-weight: 600;
+  opacity: 0.7;
+}
+.s2-seg button.on { background: var(--s2-teal-100); opacity: 1; }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .s2-topbar, .s2-footer, .s2-main, .s2-stepbar { padding-left: 24px; padding-right: 24px; }
+  .s2-step-welcome { grid-template-columns: 1fr; gap: 40px; }
+  .s2-card-step { padding: 28px 24px 24px; }
+  .s2-identity-card { grid-template-columns: auto 1fr; }
+  .s2-identity-badge { grid-column: 1 / -1; }
+}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" data-presets="react">
+// Sigma2 Claude Cowork — Onboarding wizard (single-file JSX)
+// Bokmål + English toggle, dark "infrastructure" aesthetic.
+
+const { useState, useEffect, useMemo, useRef } = React;
+
+/* ─── Copy dictionaries ───────────────────────────────────────── */
+const COPY = {
+  no: {
+    appName: "Claude Cowork",
+    org: "Sigma2",
+    langLabel: "Språk",
+    langNO: "Norsk",
+    langEN: "English",
+    skip: "Hopp over",
+    next: "Neste",
+    back: "Tilbake",
+    finish: "Fullfør oppsett",
+    step: "Steg",
+    of: "av",
+
+    // Step 1 — welcome
+    s1Overline: "Velkommen til Cowork",
+    s1Title: "Claude, koblet til Sigma2-systemene dine.",
+    s1Lede:
+      "Cowork lar deg snakke med Claude og samtidig slå opp data i Sigma2s interne systemer — fra MAS og RT til lønn, timer og regnskap. Du velger selv hvilke verktøy som skal være påskrudd.",
+    s1Point1Title: "Du bestemmer tilgangen",
+    s1Point1: "Skru verktøy av og på når som helst. Claude bruker bare det du har skrudd på.",
+    s1Point2Title: "Din Sigma2-pålogging",
+    s1Point2: "Vi bruker Feide-innlogging. Claude får ingen passord å se.",
+    s1Point3Title: "Alt er sporbart",
+    s1Point3: "Hvert oppslag logges i RT og kan revideres av IT.",
+    s1Start: "Kom i gang",
+
+    // Step 2 — identity
+    s2Overline: "Steg 1 — Identifiser deg",
+    s2Title: "Logg inn med Feide",
+    s2Lede: "Vi henter navn, avdeling og roller fra LDAP slik at verktøyene vet hvem du er.",
+    s2Btn: "Logg inn med Feide",
+    s2Connected: "Tilkoblet som",
+    s2Role: "Rolle",
+    s2Dept: "Avdeling",
+
+    // Step 3 — tools
+    s3Overline: "Steg 2 — Velg verktøy",
+    s3Title: "Hva skal Claude kunne gjøre?",
+    s3Lede:
+      "Skru på de verktøyene du bruker i det daglige. Du kan endre dette senere under Innstillinger.",
+    s3AllOn: "Skru på alle",
+    s3AllOff: "Skru av alle",
+    s3Recommended: "Anbefalt for din rolle",
+    s3Selected: "valgt",
+
+    // Step 4 — confirm
+    s4Overline: "Steg 3 — Bekreft",
+    s4Title: "Klar til å starte",
+    s4Lede:
+      "Gjennomgå valgene dine. Du kan endre alt senere fra verktøylisten i Cowork.",
+    s4Summary: "Oppsummering",
+    s4You: "Deg",
+    s4Tools: "Aktive verktøy",
+    s4Rights: "Tilganger Claude får",
+    s4RightsItem1: "Lese-tilgang til valgte systemer via din Feide-profil",
+    s4RightsItem2: "Skriv-tilgang kun til UBW Agresso-bilag (når aktivert)",
+    s4RightsItem3: "Alle kall logges automatisk i RT",
+    s4LetsGo: "Åpne Cowork",
+
+    // Step 5 — done
+    s5Overline: "Ferdig",
+    s5Title: "Oppsettet er lagret",
+    s5Lede:
+      "Cowork er klart. Still Claude et spørsmål for å se hvordan verktøyene dine svarer.",
+    s5Try: "Prøv en eksempelprompt",
+    s5Examples: "Eksempelprompter",
+    s5Open: "Åpne Cowork",
+
+    // Shared
+    connect: "Koble til",
+    connected: "Tilkoblet",
+    on: "På",
+    off: "Av",
+    permissions: "Tilganger",
+    whenActive: "Når aktivert",
+
+    // Tool copy
+    tools: {
+      mas: {
+        name: "MAS",
+        tagline: "Slå opp i metadatasystemet og lenk data til prosjekter.",
+        scope: "Lese: datasett, katalog, nøkler",
+        who: "Forskningsstøtte, data-team",
+      },
+      rt: {
+        name: "RT",
+        tagline: "Les, kommenter og oppretter saker i Request Tracker.",
+        scope: "Lese + kommentere tilkoblede køer",
+        who: "Support, drift",
+      },
+      lonn: {
+        name: "Lønn",
+        tagline: "Oppslag i egen lønnsdata — lønnsslipp, feriepenger, skattetrekk.",
+        scope: "Kun lesing av egne lønnsdata",
+        who: "Alle ansatte",
+      },
+      timer: {
+        name: "Timer",
+        tagline: "Se og summer timer fra UBW Agresso, per prosjekt og periode. Inkluderer flex-saldo.",
+        scope: "Lese timetransaksjoner (OneDrive-synk)",
+        who: "Alle ansatte",
+      },
+      regnskap: {
+        name: "Regnskap",
+        tagline: "Hent saldoer, transaksjoner og prosjektkostnader fra Agresso.",
+        scope: "Lese regnskapsdata for prosjekter du har tilgang til",
+        who: "Prosjektledere, økonomi",
+      },
+      ldap: {
+        name: "LDAP",
+        tagline: "Søk etter kolleger, avdelinger og roller.",
+        scope: "Lese katalogoppføringer",
+        who: "Alle ansatte",
+      },
+      agresso: {
+        name: "UBW Agresso",
+        tagline: "Generer Excelerator GL-bilag (.xlsx) klar for import i Agresso via Citrix.",
+        scope: "Skriver .xlsx til Skrivebordet – manuell import i Citrix",
+        who: "Økonomi",
+      },
+    },
+
+    // Example prompts
+    prompts: [
+      "Hvor mye har prosjekt «NIRD-utvidelse» brukt av budsjettet hittil i år?",
+      "Finn alle RT-saker i køen «drift» som er eldre enn 7 dager.",
+      "Bokfør denne kvitteringen på konto 6540, prosjekt 4021.",
+      "Hva er feriepengegrunnlaget mitt for 2025?",
+    ],
+  },
+  en: {
+    appName: "Claude Cowork",
+    org: "Sigma2",
+    langLabel: "Language",
+    langNO: "Norsk",
+    langEN: "English",
+    skip: "Skip",
+    next: "Next",
+    back: "Back",
+    finish: "Finish setup",
+    step: "Step",
+    of: "of",
+
+    s1Overline: "Welcome to Cowork",
+    s1Title: "Claude, wired into your Sigma2 systems.",
+    s1Lede:
+      "Cowork lets you talk to Claude while it looks things up in Sigma2's internal systems — from MAS and RT to payroll, timesheets and accounting. You decide which tools are active.",
+    s1Point1Title: "You control access",
+    s1Point1: "Toggle tools on and off whenever you like. Claude only uses what's on.",
+    s1Point2Title: "Your Sigma2 login",
+    s1Point2: "We sign you in via Feide. Claude never sees your password.",
+    s1Point3Title: "Everything is auditable",
+    s1Point3: "Each lookup is logged in RT and reviewable by IT.",
+    s1Start: "Get started",
+
+    s2Overline: "Step 1 — Identify yourself",
+    s2Title: "Sign in with Feide",
+    s2Lede: "We read your name, department and roles from LDAP so the tools know who you are.",
+    s2Btn: "Sign in with Feide",
+    s2Connected: "Signed in as",
+    s2Role: "Role",
+    s2Dept: "Department",
+
+    s3Overline: "Step 2 — Pick your tools",
+    s3Title: "What should Claude be able to do?",
+    s3Lede:
+      "Turn on the tools you use day-to-day. You can change this later from Settings.",
+    s3AllOn: "Turn all on",
+    s3AllOff: "Turn all off",
+    s3Recommended: "Recommended for your role",
+    s3Selected: "selected",
+
+    s4Overline: "Step 3 — Confirm",
+    s4Title: "Ready to go",
+    s4Lede:
+      "Review your choices. You can change everything later from the tool list in Cowork.",
+    s4Summary: "Summary",
+    s4You: "You",
+    s4Tools: "Active tools",
+    s4Rights: "What Claude can do",
+    s4RightsItem1: "Read access to selected systems via your Feide profile",
+    s4RightsItem2: "Write access only to UBW Agresso vouchers (when active)",
+    s4RightsItem3: "Every call is automatically logged in RT",
+    s4LetsGo: "Open Cowork",
+
+    s5Overline: "Done",
+    s5Title: "Your setup is saved",
+    s5Lede:
+      "Cowork is ready. Ask Claude a question to see how your tools respond.",
+    s5Try: "Try an example prompt",
+    s5Examples: "Example prompts",
+    s5Open: "Open Cowork",
+
+    connect: "Connect",
+    connected: "Connected",
+    on: "On",
+    off: "Off",
+    permissions: "Permissions",
+    whenActive: "When active",
+
+    tools: {
+      mas: {
+        name: "MAS",
+        tagline: "Look up the metadata system and link records to projects.",
+        scope: "Read: datasets, catalogue, keys",
+        who: "Research support, data teams",
+      },
+      rt: {
+        name: "RT",
+        tagline: "Read, comment on and open tickets in Request Tracker.",
+        scope: "Read and comment on connected queues",
+        who: "Support, operations",
+      },
+      lonn: {
+        name: "Payroll",
+        tagline: "Look up your own payroll data — payslip, holiday pay, tax.",
+        scope: "Read your own payroll data only",
+        who: "Everyone",
+      },
+      timer: {
+        name: "Timesheets",
+        tagline: "See and sum your hours from UBW Agresso, by project and period. Includes flex balance.",
+        scope: "Read time transactions (OneDrive sync)",
+        who: "Everyone",
+      },
+      regnskap: {
+        name: "Accounting",
+        tagline: "Pull balances, transactions and project costs from Agresso.",
+        scope: "Read accounting data for projects you can access",
+        who: "Project leads, finance",
+      },
+      ldap: {
+        name: "LDAP",
+        tagline: "Search for colleagues, departments and roles.",
+        scope: "Read directory entries",
+        who: "Everyone",
+      },
+      agresso: {
+        name: "UBW Agresso",
+        tagline: "Generate Excelerator GL vouchers (.xlsx) ready for import in Agresso via Citrix.",
+        scope: "Writes .xlsx to Desktop — manual import in Citrix",
+        who: "Finance",
+      },
+    },
+
+    prompts: [
+      "How much of project \"NIRD expansion\"'s budget has been used this year?",
+      "Find all RT tickets in the 'ops' queue older than 7 days.",
+      "Post this receipt to account 6540, project 4021.",
+      "What's my holiday-pay base for 2025?",
+    ],
+  },
+};
+
+/* ─── Tools list (stable order) ───────────────────────────────── */
+const TOOL_IDS = ["ldap", "mas", "rt", "timer", "lonn", "regnskap", "agresso"];
+
+/* DXT filenames for each tool */
+const DXT_FILES = {
+  ldap:      "ldap-sikt.dxt",
+  mas:       "mas-mcp.dxt",
+  rt:        "rt-mcp.dxt",
+  timer:     "time-assistant-mcp.dxt",
+  lonn:      "lonn-sigma2.dxt",
+  regnskap:  "accounting-mcp.dxt",
+  agresso:   "excelerator-gl-mcp.dxt",
+};
+
+/* Icons — hand-drawn SVG, 4px-stroke circle/line motif from manual.
+   24x24 grid, stroke-based, round caps/joins. */
+const toolIcon = (id) => {
+  const props = {
+    width: 28,
+    height: 28,
+    viewBox: "0 0 28 28",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 2,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+  switch (id) {
+    case "ldap":
+      return (
+        <svg {...props}>
+          <circle cx="14" cy="9" r="3.5" />
+          <circle cx="6.5" cy="19" r="2.5" />
+          <circle cx="21.5" cy="19" r="2.5" />
+          <path d="M14 12.5V16M14 16l-6 2M14 16l6 2" />
+        </svg>
+      );
+    case "mas":
+      return (
+        <svg {...props}>
+          <path d="M4 8.5C4 7 5 6 6.5 6h3l2 2H21.5C23 8 24 9 24 10.5v9C24 21 23 22 21.5 22h-15C5 22 4 21 4 19.5v-11z" />
+          <path d="M8 12h12M8 16h8" />
+        </svg>
+      );
+    case "rt":
+      return (
+        <svg {...props}>
+          <path d="M5 7h18v12c0 1-.8 2-2 2H7c-1.2 0-2-1-2-2V7z" />
+          <path d="M5 7l9 7 9-7" />
+          <circle cx="22" cy="7" r="3" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "timer":
+      return (
+        <svg {...props}>
+          <circle cx="14" cy="14.5" r="8.5" />
+          <path d="M14 9v5.5l3.5 2" />
+          <path d="M10 3h8" />
+        </svg>
+      );
+    case "lonn":
+      return (
+        <svg {...props}>
+          <rect x="3.5" y="7" width="21" height="13" rx="2" />
+          <circle cx="14" cy="13.5" r="3" />
+          <path d="M7 13.5h.01M21 13.5h.01" />
+        </svg>
+      );
+    case "regnskap":
+      return (
+        <svg {...props}>
+          <path d="M5 22V8l9-4 9 4v14" />
+          <path d="M5 22h18" />
+          <path d="M10 22v-7h8v7" />
+        </svg>
+      );
+    case "agresso":
+      return (
+        <svg {...props}>
+          <rect x="5" y="3.5" width="18" height="21" rx="2" />
+          <path d="M9 9h10M9 13h10M9 17h6" />
+          <circle cx="19.5" cy="18" r="3" fill="var(--s2-coral-100)" stroke="none" />
+          <path d="M18.3 18l.9.9 1.8-1.8" stroke="#fff" strokeWidth="1.6" />
+        </svg>
+      );
+  }
+};
+
+/* ─── Sigma2 mark ─────────────────────────────────────────────── */
+const Sigma2Mark = ({ color = "currentColor" }) => (
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden>
+    <circle cx="18" cy="18" r="15" stroke={color} strokeWidth="3" />
+    <path
+      d="M12 13c0-2 1.5-3.5 4-3.5s4 1.5 4 3.5c0 2-1.5 3-4 4.5-2.5 1.5-4 2.5-4 4.5 0 2 1.5 3.5 4 3.5s4-1.5 4-3.5"
+      stroke={color}
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </svg>
+);
+
+/* ─── Toggle switch ──────────────────────────────────────────── */
+const Toggle = ({ on, onChange, label }) => (
+  <button
+    role="switch"
+    aria-checked={on}
+    aria-label={label}
+    onClick={() => onChange(!on)}
+    className={`s2-toggle ${on ? "on" : "off"}`}
+  >
+    <span className="s2-toggle-knob" />
+  </button>
+);
+
+/* ─── Progress bar / steps ───────────────────────────────────── */
+const StepBar = ({ step, total, labels, theme, onJump }) => (
+  <div className="s2-stepbar" data-theme={theme}>
+    {labels.map((l, i) => {
+      const state = i < step ? "done" : i === step ? "active" : "todo";
+      const clickable = state === "done";
+      return (
+        <div
+          key={i}
+          className={`s2-step ${state}`}
+          role={clickable ? "button" : undefined}
+          tabIndex={clickable ? 0 : -1}
+          onClick={() => clickable && onJump && onJump(i + 1)}
+          onKeyDown={(e) => { if (clickable && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); onJump && onJump(i + 1); } }}
+          title={clickable ? l : undefined}
+        >
+          <div className="s2-step-dot">
+            {state === "done" ? (
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 7l3 3 5-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <span>{i + 1}</span>
+            )}
+          </div>
+          <span className="s2-step-label">{l}</span>
+          {i < labels.length - 1 && <div className="s2-step-line" />}
+        </div>
+      );
+    })}
+  </div>
+);
+
+/* ─── Decorative circle/line motif ───────────────────────────── */
+const CircleLineMotif = ({ variant = "a" }) => {
+  if (variant === "a") {
+    return (
+      <svg className="s2-motif motif-a" viewBox="0 0 320 320" fill="none" aria-hidden>
+        <circle cx="160" cy="160" r="140" stroke="currentColor" strokeWidth="4" />
+        <circle cx="160" cy="160" r="90" stroke="currentColor" strokeWidth="4" />
+        <path d="M20 160 H300" stroke="currentColor" strokeWidth="4" />
+        <path d="M160 20 V300" stroke="currentColor" strokeWidth="4" />
+      </svg>
+    );
+  }
+  return (
+    <svg className="s2-motif motif-b" viewBox="0 0 260 260" fill="none" aria-hidden>
+      <circle cx="130" cy="130" r="110" stroke="currentColor" strokeWidth="4" />
+      <path d="M20 130 H240" stroke="currentColor" strokeWidth="4" />
+    </svg>
+  );
+};
+
+/* ─── Steps ──────────────────────────────────────────────────── */
+function StepWelcome({ t, onNext, theme }) {
+  return (
+    <div className="s2-step-welcome">
+      <div className="s2-welcome-left">
+        <div className="s2-overline s2-accent">{t.s1Overline}</div>
+        <h1 className="s2-h1 s2-title">{t.s1Title}</h1>
+        <p className="s2-p s2-lede">{t.s1Lede}</p>
+
+        <div className="s2-points">
+          <Point num="01" title={t.s1Point1Title} body={t.s1Point1} />
+          <Point num="02" title={t.s1Point2Title} body={t.s1Point2} />
+          <Point num="03" title={t.s1Point3Title} body={t.s1Point3} />
+        </div>
+
+        <div className="s2-actions">
+          <button className="s2-btn s2-btn-primary" onClick={onNext}>
+            {t.s1Start}
+            <ArrowRight />
+          </button>
+        </div>
+      </div>
+
+      <div className="s2-welcome-right">
+        <HeroCard t={t} theme={theme} />
+      </div>
+    </div>
+  );
+}
+
+const Point = ({ num, title, body }) => (
+  <div className="s2-point">
+    <div className="s2-point-num">{num}</div>
+    <div>
+      <div className="s2-point-title">{title}</div>
+      <div className="s2-point-body">{body}</div>
+    </div>
+  </div>
+);
+
+const ArrowRight = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+    <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const ArrowLeft = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+    <path d="M15 9H3M8 4L3 9l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/* Hero chat preview — feels like Cowork */
+function HeroCard({ t, theme }) {
+  return (
+    <div className="s2-hero-card">
+      <CircleLineMotif variant="a" />
+      <div className="s2-hero-chat">
+        <div className="s2-chat-row user">
+          <div className="s2-chat-bubble user">
+            {t === COPY.no
+              ? "Hei Claude, hvor mange timer har jeg ført på prosjekt 4021 i april?"
+              : "Hey Claude, how many hours have I logged on project 4021 in April?"}
+          </div>
+        </div>
+
+        <div className="s2-chat-row claude">
+          <div className="s2-chat-tool">
+            <div className="s2-chat-tool-head">
+              <span className="s2-chat-tool-dot" />
+              <span className="s2-chat-tool-name">
+                {t === COPY.no ? "Bruker verktøy" : "Using tool"} · Timer
+              </span>
+              <span className="s2-chat-tool-status">
+                {t === COPY.no ? "Fullført" : "Done"}
+              </span>
+            </div>
+            <div className="s2-chat-tool-body s2-mono">
+              <span className="dim">get_timesheet</span>
+              {"({ project: 4021, period: \"2026-04\" })"}
+            </div>
+          </div>
+
+          <div className="s2-chat-bubble claude">
+            {t === COPY.no
+              ? "Du har ført 42,5 timer på prosjekt 4021 i april. Tre dager mangler utfylling — vil du at jeg lager et RT-minne?"
+              : "You've logged 42.5 hours on project 4021 in April. Three days are missing — want me to open an RT reminder?"}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Step 2 — Feide login */
+function StepIdentity({ t, user, setUser, onNext, onBack }) {
+  const [loading, setLoading] = useState(false);
+  const connect = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setUser({
+        name: "Ingrid Solberg",
+        mail: "ingrid.solberg@sigma2.no",
+        dept: "Forskningsstøtte",
+        role: "Senior rådgiver",
+        initials: "IS",
+      });
+      setLoading(false);
+    }, 900);
+  };
+  return (
+    <div className="s2-card-step">
+      <div className="s2-overline s2-accent">{t.s2Overline}</div>
+      <h2 className="s2-h2 s2-title-sm">{t.s2Title}</h2>
+      <p className="s2-p s2-lede">{t.s2Lede}</p>
+
+      <div className="s2-identity">
+        {!user ? (
+          <button
+            className={`s2-feide-btn ${loading ? "loading" : ""}`}
+            onClick={connect}
+            disabled={loading}
+          >
+            <FeideGlyph />
+            <span>{loading ? (t === COPY.no ? "Logger inn…" : "Signing in…") : t.s2Btn}</span>
+          </button>
+        ) : (
+          <div className="s2-identity-card">
+            <div className="s2-avatar">{user.initials}</div>
+            <div className="s2-identity-meta">
+              <div className="s2-identity-name">{user.name}</div>
+              <div className="s2-identity-mail">{user.mail}</div>
+              <div className="s2-identity-kv">
+                <div>
+                  <span className="k">{t.s2Role}</span>
+                  <span className="v">{user.role}</span>
+                </div>
+                <div>
+                  <span className="k">{t.s2Dept}</span>
+                  <span className="v">{user.dept}</span>
+                </div>
+              </div>
+            </div>
+            <div className="s2-identity-badge">
+              <Dot /> {t.s2Connected.replace(/ som$/, "").replace(/ as$/, "")}
+            </div>
+          </div>
+        )}
+
+        <div className="s2-identity-note s2-small">
+          {t === COPY.no
+            ? "Vi henter profilen din via Feide → LDAP. Passordet forlater aldri påloggingsvinduet."
+            : "Your profile is read via Feide → LDAP. Your password never leaves the sign-in window."}
+        </div>
+      </div>
+
+      <NavRow t={t} onNext={onNext} onBack={onBack} nextDisabled={!user} />
+    </div>
+  );
+}
+
+const FeideGlyph = () => (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
+    <circle cx="11" cy="11" r="10" fill="#EF4444" />
+    <path d="M6 9h10M6 13h7" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const Dot = () => (
+  <span
+    style={{
+      display: "inline-block",
+      width: 8,
+      height: 8,
+      borderRadius: "50%",
+      background: "#38D28C",
+      boxShadow: "0 0 0 3px rgba(56,210,140,0.18)",
+      marginRight: 8,
+    }}
+  />
+);
+
+/* Step 3 — tool selection */
+function StepTools({ t, enabled, setEnabled, onNext, onBack, lang }) {
+  const recommended = useMemo(() => ["ldap", "timer", "lonn", "rt"], []);
+  const list = TOOL_IDS;
+  const allOn = list.every((id) => enabled[id]);
+
+  const setAll = (v) => {
+    const next = {};
+    list.forEach((id) => (next[id] = v));
+    setEnabled(next);
+  };
+
+  const count = list.filter((id) => enabled[id]).length;
+
+  return (
+    <div className="s2-card-step tools-step">
+      <div className="s2-tools-head">
+        <div>
+          <div className="s2-overline s2-accent">{t.s3Overline}</div>
+          <h2 className="s2-h2 s2-title-sm">{t.s3Title}</h2>
+          <p className="s2-p s2-lede">{t.s3Lede}</p>
+        </div>
+        <div className="s2-tools-head-right">
+          <span className="s2-selected-count">
+            <strong>{count}</strong>/{list.length} {t.s3Selected}
+          </span>
+          <button className="s2-btn-ghost s2-link" onClick={() => setAll(!allOn)}>
+            {allOn ? t.s3AllOff : t.s3AllOn}
+          </button>
+        </div>
+      </div>
+
+      <div className="s2-tool-grid">
+        {list.map((id) => {
+          const info = t.tools[id];
+          const on = !!enabled[id];
+          const rec = recommended.includes(id);
+          return (
+            <article
+              key={id}
+              className={`s2-tool-card ${on ? "on" : ""}`}
+              onClick={() => setEnabled({ ...enabled, [id]: !on })}
+            >
+              <div className="s2-tool-top">
+                <div className={`s2-tool-icon tool-${id}`}>{toolIcon(id)}</div>
+                <Toggle
+                  on={on}
+                  onChange={(v) => setEnabled({ ...enabled, [id]: v })}
+                  label={info.name}
+                />
+              </div>
+              <div className="s2-tool-body">
+                <div className="s2-tool-name-row">
+                  <h3 className="s2-h5 s2-tool-name">{info.name}</h3>
+                  {rec && (
+                    <span className="s2-tool-rec" title={t.s3Recommended}>
+                      <Star />
+                      <span>{lang === "no" ? "Anbefalt" : "Recommended"}</span>
+                    </span>
+                  )}
+                </div>
+                <p className="s2-tool-tag">{info.tagline}</p>
+                <div className="s2-tool-scope s2-small">
+                  <Lock />
+                  <span>{info.scope}</span>
+                </div>
+              </div>
+              <div className="s2-tool-footer">
+                <a
+                  href={`dxt/${DXT_FILES[id]}`}
+                  download
+                  onClick={e => e.stopPropagation()}
+                  className="s2-tool-download s2-small"
+                  title={`Last ned ${DXT_FILES[id]}`}
+                >
+                  <DownloadIcon />
+                  <span>{lang === "no" ? "Last ned .dxt" : "Download .dxt"}</span>
+                </a>
+              </div>
+              <div className="s2-tool-corner" />
+            </article>
+          );
+        })}
+      </div>
+
+      <NavRow t={t} onNext={onNext} onBack={onBack} />
+    </div>
+  );
+}
+
+const DownloadIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+    <path d="M7 2v7M4 6l3 3 3-3M2 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const Star = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
+    <path d="M6 .8l1.6 3.2 3.5.5-2.55 2.5.6 3.5L6 8.9 2.85 10.5l.6-3.5L.9 4.5l3.5-.5L6 .8z" />
+  </svg>
+);
+const Lock = () => (
+  <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden>
+    <rect x="2.5" y="6" width="9" height="6.5" rx="1.5" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M4.5 6V4.5a2.5 2.5 0 015 0V6" stroke="currentColor" strokeWidth="1.3" />
+  </svg>
+);
+
+/* Step 4 — confirm */
+function StepConfirm({ t, user, enabled, onNext, onBack, lang }) {
+  const active = TOOL_IDS.filter((id) => enabled[id]);
+  return (
+    <div className="s2-card-step">
+      <div className="s2-overline s2-accent">{t.s4Overline}</div>
+      <h2 className="s2-h2 s2-title-sm">{t.s4Title}</h2>
+      <p className="s2-p s2-lede">{t.s4Lede}</p>
+
+      <div className="s2-summary">
+        <div className="s2-summary-col">
+          <div className="s2-overline muted">{t.s4You}</div>
+          {user && (
+            <div className="s2-summary-user">
+              <div className="s2-avatar sm">{user.initials}</div>
+              <div>
+                <div className="s2-summary-name">{user.name}</div>
+                <div className="s2-summary-sub">{user.role} · {user.dept}</div>
+              </div>
+            </div>
+          )}
+
+          <div className="s2-overline muted" style={{ marginTop: 28 }}>{t.s4Rights}</div>
+          <ul className="s2-rights">
+            <li>{t.s4RightsItem1}</li>
+            <li>{t.s4RightsItem2}</li>
+            <li>{t.s4RightsItem3}</li>
+          </ul>
+        </div>
+
+        <div className="s2-summary-col">
+          <div className="s2-overline muted">
+            {t.s4Tools} <span className="s2-count-chip">{active.length}</span>
+          </div>
+          <ul className="s2-active-tools">
+            {active.map((id) => (
+              <li key={id}>
+                <span className={`s2-tool-icon-sm tool-${id}`}>{toolIcon(id)}</span>
+                <div>
+                  <div className="s2-active-name">{t.tools[id].name}</div>
+                  <div className="s2-active-scope s2-small">{t.tools[id].scope}</div>
+                </div>
+              </li>
+            ))}
+            {active.length === 0 && (
+              <li className="s2-empty">{lang === "no" ? "Ingen verktøy valgt" : "No tools selected"}</li>
+            )}
+          </ul>
+        </div>
+      </div>
+
+      <NavRow t={t} onBack={onBack} onNext={onNext} nextLabel={t.s4LetsGo} />
+    </div>
+  );
+}
+
+/* Step 5 — done */
+function StepDone({ t, enabled, lang, onBack }) {
+  const [promptIdx, setPromptIdx] = useState(0);
+  const active = TOOL_IDS.filter((id) => enabled[id]);
+  return (
+    <div className="s2-card-step done">
+      <div className="s2-done-top">
+        <div className="s2-done-check">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+            <circle cx="22" cy="22" r="20" stroke="currentColor" strokeWidth="3" />
+            <path d="M13 22l6 6 13-13" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <div className="s2-overline s2-accent">{t.s5Overline}</div>
+        <h2 className="s2-h2 s2-title-sm">{t.s5Title}</h2>
+        <p className="s2-p s2-lede">{t.s5Lede}</p>
+      </div>
+
+      <div className="s2-done-examples">
+        <div className="s2-overline muted">{t.s5Examples}</div>
+        <div className="s2-prompt-list">
+          {t.prompts.map((p, i) => (
+            <button
+              key={i}
+              className={`s2-prompt-chip ${promptIdx === i ? "on" : ""}`}
+              onClick={() => setPromptIdx(i)}
+            >
+              <span className="s2-prompt-chip-num">0{i + 1}</span>
+              <span>{p}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="s2-done-active">
+          <div className="s2-overline muted">
+            {t.s4Tools} · {active.length}
+          </div>
+          <div className="s2-done-chips">
+            {active.map((id) => (
+              <span key={id} className={`s2-done-chip tool-${id}`}>
+                <span className={`s2-tool-icon-sm tool-${id}`}>{toolIcon(id)}</span>
+                {t.tools[id].name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="s2-actions center" style={{ gap: 16 }}>
+        <button className="s2-btn-ghost s2-nav-back" onClick={onBack}>
+          <ArrowLeft /> {t.back}
+        </button>
+        <button className="s2-btn s2-btn-primary lg">
+          {t.s5Open}
+          <ArrowRight />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* Nav */
+function NavRow({ t, onBack, onNext, nextDisabled, nextLabel }) {
+  return (
+    <div className="s2-nav-row">
+      {onBack ? (
+        <button className="s2-btn-ghost s2-nav-back" onClick={onBack}>
+          <ArrowLeft /> {t.back}
+        </button>
+      ) : <span />}
+      <div className="s2-nav-right">
+        <button
+          className="s2-btn s2-btn-primary"
+          onClick={onNext}
+          disabled={nextDisabled}
+        >
+          {nextLabel || t.next}
+          <ArrowRight />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Root app ───────────────────────────────────────────────── */
+function App() {
+  // Tweakable defaults block — edited by the host
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "dark",
+    "language": "no"
+  }/*EDITMODE-END*/;
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("s2.theme") || TWEAK_DEFAULTS.theme;
+  });
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem("s2.lang") || TWEAK_DEFAULTS.language;
+  });
+  const [step, setStep] = useState(() => {
+    const s = parseInt(localStorage.getItem("s2.step") || "0", 10);
+    return isNaN(s) ? 0 : s;
+  });
+  const [user, setUser] = useState(null);
+  const [enabled, setEnabled] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("s2.enabled") || "null");
+      if (saved) return saved;
+    } catch {}
+    return { ldap: true, timer: true, lonn: true, rt: false, mas: false, regnskap: false, agresso: false };
+  });
+
+  useEffect(() => { localStorage.setItem("s2.step", String(step)); }, [step]);
+  useEffect(() => { localStorage.setItem("s2.enabled", JSON.stringify(enabled)); }, [enabled]);
+  useEffect(() => { localStorage.setItem("s2.theme", theme); }, [theme]);
+  useEffect(() => { localStorage.setItem("s2.lang", lang); }, [lang]);
+
+  // Tweaks panel wiring
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+  useEffect(() => {
+    const onMsg = (e) => {
+      const d = e.data;
+      if (!d || !d.type) return;
+      if (d.type === "__activate_edit_mode") setTweaksOpen(true);
+      if (d.type === "__deactivate_edit_mode") setTweaksOpen(false);
+    };
+    window.addEventListener("message", onMsg);
+    // Announce availability AFTER listener is registered
+    window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+
+  const persistTweak = (patch) => {
+    window.parent.postMessage({ type: "__edit_mode_set_keys", edits: patch }, "*");
+  };
+
+  const t = COPY[lang];
+
+  const stepLabels = [
+    lang === "no" ? "Velkommen" : "Welcome",
+    lang === "no" ? "Identitet" : "Identity",
+    lang === "no" ? "Verktøy" : "Tools",
+    lang === "no" ? "Bekreft" : "Confirm",
+    lang === "no" ? "Ferdig" : "Done",
+  ];
+
+  // If page is reloaded and user is null but step > 1, drop a plausible user
+  useEffect(() => {
+    if (!user && step > 1) {
+      setUser({
+        name: "Ingrid Solberg",
+        mail: "ingrid.solberg@sigma2.no",
+        dept: lang === "no" ? "Forskningsstøtte" : "Research support",
+        role: lang === "no" ? "Senior rådgiver" : "Senior advisor",
+        initials: "IS",
+      });
+    }
+  }, [step]); // eslint-disable-line
+
+  return (
+    <div className={`s2-app theme-${theme}`} data-theme={theme}>
+      {/* Background circles motif */}
+      <div className="s2-bg-motif" aria-hidden>
+        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMaxYMin slice">
+          <circle cx="1480" cy="80" r="320" stroke="currentColor" strokeWidth="4" fill="none" />
+          <circle cx="1480" cy="80" r="200" stroke="currentColor" strokeWidth="4" fill="none" />
+          <path d="M60 800 H 1540" stroke="currentColor" strokeWidth="4" />
+          <circle cx="120" cy="820" r="6" fill="currentColor" />
+          <circle cx="260" cy="820" r="20" stroke="currentColor" strokeWidth="4" fill="none" />
+        </svg>
+      </div>
+
+      {/* Top bar */}
+      <header className="s2-topbar">
+        <div className="s2-brand">
+          <Sigma2Mark />
+          <div className="s2-brand-text">
+            <div className="s2-brand-org">{t.org}</div>
+            <div className="s2-brand-app">{t.appName}</div>
+          </div>
+        </div>
+
+        <div className="s2-top-right">
+          <div className="s2-lang-toggle" role="tablist" aria-label={t.langLabel}>
+            <button
+              role="tab"
+              aria-selected={lang === "no"}
+              onClick={() => setLang("no")}
+              className={lang === "no" ? "on" : ""}
+            >
+              NO
+            </button>
+            <button
+              role="tab"
+              aria-selected={lang === "en"}
+              onClick={() => setLang("en")}
+              className={lang === "en" ? "on" : ""}
+            >
+              EN
+            </button>
+          </div>
+          {step > 0 && step < 4 && (
+            <button
+              className="s2-btn-ghost s2-skip"
+              onClick={() => setStep(4)}
+              title={t.skip}
+            >
+              {t.skip}
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* Step bar */}
+      {step > 0 && (
+        <StepBar
+          step={step - 1}
+          total={4}
+          labels={stepLabels.slice(1)}
+          theme={theme}
+          onJump={(n) => setStep(n)}
+        />
+      )}
+
+      {/* Main */}
+      <main className="s2-main">
+        {step === 0 && <StepWelcome t={t} theme={theme} onNext={() => setStep(1)} />}
+        {step === 1 && (
+          <StepIdentity
+            t={t}
+            user={user}
+            setUser={setUser}
+            onNext={() => setStep(2)}
+            onBack={() => setStep(0)}
+          />
+        )}
+        {step === 2 && (
+          <StepTools
+            t={t}
+            lang={lang}
+            enabled={enabled}
+            setEnabled={setEnabled}
+            onNext={() => setStep(3)}
+            onBack={() => setStep(1)}
+          />
+        )}
+        {step === 3 && (
+          <StepConfirm
+            t={t}
+            user={user}
+            enabled={enabled}
+            lang={lang}
+            onNext={() => setStep(4)}
+            onBack={() => setStep(2)}
+          />
+        )}
+        {step === 4 && <StepDone t={t} enabled={enabled} lang={lang} onBack={() => setStep(3)} />}
+      </main>
+
+      {/* Footer / meta */}
+      <footer className="s2-footer">
+        <div className="s2-footer-left s2-small">
+          {t.step} <strong>{step + 1}</strong> {t.of} 5 · {t.appName}
+        </div>
+        <div className="s2-footer-right s2-small">
+          {lang === "no"
+            ? "Bygget for Sigma2-ansatte · Alle oppslag logges"
+            : "Built for Sigma2 staff · All lookups are logged"}
+        </div>
+      </footer>
+
+      {/* Tweaks panel */}
+      {tweaksOpen && (
+        <aside className="s2-tweaks">
+          <div className="s2-tweaks-head">
+            <strong>Tweaks</strong>
+            <button className="s2-tweaks-close" onClick={() => setTweaksOpen(false)} aria-label="Close">×</button>
+          </div>
+          <div className="s2-tweaks-row">
+            <label className="s2-overline muted">Bakgrunn / Theme</label>
+            <div className="s2-seg">
+              <button
+                className={theme === "dark" ? "on" : ""}
+                onClick={() => { setTheme("dark"); persistTweak({ theme: "dark" }); }}
+              >
+                Mørk · Dark
+              </button>
+              <button
+                className={theme === "light" ? "on" : ""}
+                onClick={() => { setTheme("light"); persistTweak({ theme: "light" }); }}
+              >
+                Lys · Light
+              </button>
+            </div>
+          </div>
+
+          <div className="s2-tweaks-row">
+            <label className="s2-overline muted">Språk / Language</label>
+            <div className="s2-seg">
+              <button
+                className={lang === "no" ? "on" : ""}
+                onClick={() => { setLang("no"); persistTweak({ language: "no" }); }}
+              >
+                Norsk
+              </button>
+              <button
+                className={lang === "en" ? "on" : ""}
+                onClick={() => { setLang("en"); persistTweak({ language: "en" }); }}
+              >
+                English
+              </button>
+            </div>
+          </div>
+
+          <div className="s2-tweaks-row">
+            <label className="s2-overline muted">Start på nytt</label>
+            <button
+              className="s2-btn-ghost s2-link"
+              onClick={() => {
+                setStep(0);
+                setUser(null);
+                setEnabled({ ldap: true, timer: true, lonn: true, rt: false, mas: false, regnskap: false, agresso: false });
+              }}
+            >
+              ↺ Nullstill onboarding
+            </button>
+          </div>
+        </aside>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>

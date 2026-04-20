@@ -1,0 +1,135 @@
+/* Sigma2 brand tokens — derived from sigma2-designmanual-web-v3.pdf */
+
+:root {
+  /* Sigma2 — Openness (ocean/teal) — primary */
+  --s2-teal-100: #007C92;
+  --s2-teal-hover: #00758A;
+  --s2-teal-80:  #33969E; /* approx */
+  --s2-teal-50:  #BFDEE4; /* manual value for 50 tint is approx bfdee4 */
+  --s2-teal-25:  #DFECEF;
+
+  /* Sigma2 — Customer focus (coral) */
+  --s2-coral-100: #FF956E;
+  --s2-coral-hover: #DB7853;
+  --s2-coral-50:  #FFCAB7;
+  --s2-coral-25:  #FFE4D7;
+
+  /* Sigma2 — Corporate social responsibility (slate) */
+  --s2-slate-100: #51626F;
+  --s2-slate-80:  #6F7E89;
+  --s2-slate-50:  #A8B0B7;
+  --s2-slate-25:  #D3D7DB;
+
+  /* Dark page background mix (from manual: "mix of two dark colors") */
+  --s2-bg-dark-a: #2F4455; /* darker */
+  --s2-bg-dark-b: #526B7D; /* lighter */
+  --s2-bg-dark:   #253B4B; /* used as page bg */
+
+  /* Earth (NRIS accent) — reserved for subtle accents only */
+  --s2-earth-100: #C79900;
+
+  /* Neutrals */
+  --s2-white: #FFFFFF;
+  --s2-near-white: #F6F8F9;
+  --s2-ink: #0E222E;
+
+  /* Text on dark */
+  --s2-text-on-dark: #EAF0F3;
+  --s2-text-on-dark-muted: #B4C2CB;
+  --s2-border-on-dark: rgba(255,255,255,0.08);
+  --s2-surface-on-dark: #2A4050; /* card surface on dark */
+  --s2-surface-on-dark-2: #33495A;
+
+  /* Text on light */
+  --s2-text-on-light: #1A2C37;
+  --s2-text-on-light-muted: #51626F;
+  --s2-border-on-light: #D7DEE2;
+
+  /* Scale — manual says 32 and 16 px */
+  --s2-space-1: 8px;
+  --s2-space-2: 16px;
+  --s2-space-3: 24px;
+  --s2-space-4: 32px;
+  --s2-space-5: 48px;
+  --s2-space-6: 64px;
+  --s2-space-7: 96px;
+
+  /* Radii — one rounded corner motif, otherwise small */
+  --s2-radius-s: 6px;
+  --s2-radius-m: 12px;
+  --s2-radius-l: 24px;      /* used for the "one rounded corner" motif */
+  --s2-radius-xl: 40px;
+  --s2-radius-pill: 999px;
+
+  /* Lines — 4px motif */
+  --s2-stroke-bold: 4px;
+  --s2-stroke-reg:  2px;
+  --s2-stroke-thin: 1px;
+
+  /* Typography — Calibri per manual; Arial fallback for web */
+  --s2-font: "Calibri", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  /* Shadows (sparse) */
+  --s2-shadow-soft: 0 8px 40px rgba(0,0,0,0.25);
+  --s2-shadow-card-dark: 0 2px 0 rgba(255,255,255,0.02) inset, 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* Type scale per manual:
+   h1 54/32  w600
+   h2 40/30  w300
+   h3 28     w400
+   h4 28     w400
+   h5 18     w400
+   p  18     w400
+*/
+.s2-h1 { font-family: var(--s2-font); font-weight: 600; font-size: 54px; line-height: 1.05; letter-spacing: -0.01em; margin:0; }
+.s2-h2 { font-family: var(--s2-font); font-weight: 300; font-size: 40px; line-height: 1.1; letter-spacing: -0.005em; margin:0; }
+.s2-h3 { font-family: var(--s2-font); font-weight: 400; font-size: 28px; line-height: 1.2; margin:0; }
+.s2-h4 { font-family: var(--s2-font); font-weight: 400; font-size: 28px; line-height: 1.2; margin:0; }
+.s2-h5 { font-family: var(--s2-font); font-weight: 400; font-size: 18px; line-height: 1.4; margin:0; }
+.s2-p  { font-family: var(--s2-font); font-weight: 400; font-size: 18px; line-height: 1.55; margin:0; }
+.s2-small { font-family: var(--s2-font); font-weight: 400; font-size: 14px; line-height: 1.45; }
+.s2-mono  { font-family: "SF Mono", "Menlo", "Consolas", monospace; font-size: 13px; line-height: 1.5; }
+.s2-overline { font-family: var(--s2-font); font-weight: 600; font-size: 12px; line-height: 1.2; letter-spacing: 0.14em; text-transform: uppercase; }
+
+@media (max-width: 720px) {
+  .s2-h1 { font-size: 32px; }
+  .s2-h2 { font-size: 30px; }
+}
+
+/* Base reset */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: var(--s2-font); color: var(--s2-text-on-light); background: var(--s2-white); }
+button { font-family: var(--s2-font); }
+
+/* Buttons — style 1 (outline → fill hover) */
+.s2-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--s2-font);
+  font-size: 16px; font-weight: 600;
+  padding: 12px 22px;
+  border-radius: var(--s2-radius-pill);
+  cursor: pointer; transition: all 150ms ease-out;
+  border: 2px solid currentColor;
+  text-decoration: none;
+}
+.s2-btn-primary {
+  background: var(--s2-teal-100); color: #fff; border-color: var(--s2-teal-100);
+}
+.s2-btn-primary:hover { background: var(--s2-teal-hover); border-color: var(--s2-teal-hover); }
+.s2-btn-outline {
+  background: transparent; color: var(--s2-teal-100); border-color: var(--s2-teal-100);
+}
+.s2-btn-outline:hover { background: var(--s2-teal-100); color: #fff; }
+
+.s2-btn-on-dark-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,0.65); }
+.s2-btn-on-dark-outline:hover { background: #fff; color: var(--s2-bg-dark); border-color:#fff; }
+
+.s2-btn-ghost {
+  background: transparent; color: inherit; border-color: transparent;
+  padding: 10px 14px;
+}
+.s2-btn-ghost:hover { background: rgba(255,255,255,0.06); }
+
+/* Focus */
+:focus-visible { outline: 2px solid var(--s2-teal-100); outline-offset: 3px; border-radius: 4px; }
